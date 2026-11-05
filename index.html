@@ -4,104 +4,283 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sophia Zhou</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%232f6b57'/%3E%3Ctext x='50' y='50' text-anchor='middle' dominant-baseline='central' font-family='-apple-system,Helvetica,Arial,sans-serif' font-size='52' font-weight='700' letter-spacing='-2' fill='%23fdfdfc'%3ESZ%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Sophia Zhou — undergrad at Princeton working on computational biology and neuroAI.">
 
 <style>
 :root {
-  --bg:    #fdfdfc;
-  --text:  #24262a;
-  --soft:  #6b7077;
-  --line:  #e6e5e2;
-  --link:  #2f6b57;
+  --page:   #e9ece6;
+  --card:   #fdfdfc;
+  --text:   #24262a;
+  --soft:   #6b7077;
+  --line:   #e1e2dd;
+  --accent: #2f6b57;
+  --tint:   #e3eee8;
+  --shadow: 0 1px 2px rgba(20,30,25,.06), 0 12px 40px rgba(20,30,25,.10);
 }
-
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg:   #17181a;
-    --text: #e6e6e4;
-    --soft: #9aa0a6;
-    --line: #2c2e31;
-    --link: #7fc4a4;
+    --page:   #101211;
+    --card:   #1a1c1b;
+    --text:   #e6e6e4;
+    --soft:   #9aa0a6;
+    --line:   #2c2e31;
+    --accent: #7fc4a4;
+    --tint:   #22302a;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 40px rgba(0,0,0,.5);
   }
 }
-
 :root[data-theme="dark"] {
-  --bg:   #17181a;
-  --text: #e6e6e4;
-  --soft: #9aa0a6;
-  --line: #2c2e31;
-  --link: #7fc4a4;
+  --page: #101211; --card: #1a1c1b; --text: #e6e6e4; --soft: #9aa0a6;
+  --line: #2c2e31; --accent: #7fc4a4; --tint: #22302a;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 40px rgba(0,0,0,.5);
 }
 
 * { box-sizing: border-box; }
-
+html, body { height: 100%; }
 body {
-  margin: 0 auto;
-  padding: 4rem 1.5rem 6rem;
-  max-width: 39rem;
-  background: var(--bg);
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background:
+    radial-gradient(60rem 40rem at 15% 10%, var(--tint), transparent 60%),
+    var(--page);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 1.02rem;
-  line-height: 1.7;
+  line-height: 1.65;
 }
 
-h1 {
-  font-size: 1.35rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin: 0 0 1rem;
-}
-
-h2 {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--soft);
-  margin: 2.8rem 0 0.9rem;
-}
-
-p { margin: 0 0 1.1rem; }
-p:last-child { margin-bottom: 0; }
-
-a { color: var(--link); text-underline-offset: 2px; text-decoration-thickness: 1px; }
-a:hover { text-decoration-thickness: 2px; }
-a:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; border-radius: 2px; }
-
-ul { margin: 0; padding: 0; list-style: none; }
-li { margin-bottom: 1.1rem; }
-li:last-child { margin-bottom: 0; }
-li .where { color: var(--soft); }
-
-.links {
+/* the square in the middle */
+.card {
+  position: relative;
+  width: min(100%, 36rem);
+  aspect-ratio: 1 / 1;
+  max-height: calc(100dvh - 32px);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 1.1rem;
-  margin-top: 3.2rem;
-  padding-top: 1.4rem;
-  border-top: 1px solid var(--line);
-  color: var(--soft);
-  font-size: 0.95rem;
+  flex-direction: column;
+  overflow: hidden;
 }
+@media (max-width: 520px) { .card { aspect-ratio: auto; height: calc(100dvh - 32px); } }
 
-.note { color: var(--soft); font-size: 0.92rem; margin-top: 2.8rem; }
+.top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.4rem .5rem;
+  font-size: .85rem; color: var(--soft);
+}
+.top .dots { display: flex; gap: 6px; }
+.top .dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); display: block; }
+.top .dots i:first-child { background: var(--accent); }
+
+.screen { flex: 1; overflow-y: auto; padding: .4rem 1.8rem 1.4rem; }
+.screen::-webkit-scrollbar { width: 0; }
+
+section { display: none; }
+section.on { display: block; animation: in .25s ease; }
+@keyframes in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+h1 { font-size: 1.7rem; letter-spacing: -.02em; margin: .6rem 0 .5rem; line-height: 1.2; }
+h2 { font-size: 1.15rem; margin: .4rem 0 .8rem; letter-spacing: -.01em; }
+p { margin: 0 0 1rem; }
+.lede { color: var(--soft); }
+a { color: var(--accent); text-underline-offset: 2px; }
+
+/* folder-style nav */
+.folders { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin: 1.4rem 0 1rem; }
+.folder {
+  appearance: none; border: 1px solid var(--line); background: transparent; color: var(--text);
+  font: inherit; text-align: left; cursor: pointer;
+  display: flex; align-items: center; gap: .65rem;
+  padding: .75rem .9rem; border-radius: 12px;
+  transition: background .15s, border-color .15s, transform .15s;
+}
+.folder:hover { background: var(--tint); border-color: var(--accent); transform: translateY(-1px); }
+.folder:focus-visible, .back:focus-visible, .tile:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.folder svg { width: 22px; height: 22px; flex: none; color: var(--accent); }
+
+.links { display: flex; flex-wrap: wrap; gap: .3rem 1rem; font-size: .9rem; color: var(--soft); padding-top: 1rem; border-top: 1px solid var(--line); }
+
+.back {
+  appearance: none; border: 0; background: none; color: var(--soft); font: inherit; font-size: .88rem;
+  cursor: pointer; padding: 0; margin: .3rem 0 .8rem;
+}
+.back:hover { color: var(--accent); }
+
+/* photo grid */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: start; }
+.tile {
+  appearance: none; border: 0; padding: 0; width: 100%; display: block; cursor: zoom-in;
+  margin: 0; padding: .45rem; border-radius: 3px; background: #fbfaf7;
+  border: 1px solid rgba(0,0,0,.12); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 6px 16px rgba(0,0,0,.08);
+  break-inside: avoid; position: relative; transition: transform .2s, box-shadow .2s;
+}
+.tile img { display: block; width: 100%; height: auto; border-radius: 1px; }
+.tile:hover { transform: translateY(-2px); box-shadow: 0 1px 2px rgba(0,0,0,.1), 0 10px 22px rgba(0,0,0,.14); }
+.tile.ph { aspect-ratio: var(--r, 4/5); display: grid; place-items: center; color: var(--soft); font-size: .8rem; cursor: default; }
+.hint { color: var(--soft); font-size: .85rem; margin-top: .4rem; }
+
+/* lightbox */
+.lb {
+  position: fixed; inset: 0; background: rgba(10,12,11,.92); display: none;
+  align-items: center; justify-content: center; flex-direction: column; gap: .8rem; z-index: 10; padding: 1.5rem;
+}
+.lb.on { display: flex; }
+.lb img { max-width: 100%; max-height: 80dvh; border: .7rem solid #fbfaf7; border-radius: 2px; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+.lb figcaption { color: #ddd; font-size: .9rem; text-align: center; max-width: 40rem; }
+.lb button {
+  position: absolute; appearance: none; border: 0; background: rgba(255,255,255,.12); color: #fff;
+  width: 2.6rem; height: 2.6rem; border-radius: 50%; font-size: 1.3rem; cursor: pointer;
+}
+.lb .x { top: 1rem; right: 1rem; } .lb .p { left: 1rem; } .lb .n { right: 1rem; }
+
+.theme { appearance: none; border: 0; background: none; color: var(--soft); cursor: pointer; font: inherit; font-size: .85rem; }
+.theme:hover { color: var(--accent); }
 </style>
 </head>
 <body>
 
-<h1>hi, i'm sophia!</h1>
+<main class="card">
+  <div class="top">
+    <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <button class="theme" id="theme" aria-label="Toggle dark mode">light / dark</button>
+  </div>
 
-<p>I'm a sophomore at Princeton studying electrical &amp; computer engineering, with intended minors in statistics &amp; machine learning, neuroscience, and quantitative &amp; computational biology.</p>
+  <div class="screen">
 
-<p>right now i'm working on scaling cell lineage tree reconstruction. this past summer I was in SF, synthesizing tau-PET scans from MRIs.</p>
+    <section id="home" class="on">
+      <h1>sophia zhou</h1>
+      <p class="lede">studying electrical engineering, neuro, comp bio @ princeton</p>
 
-<p>you can reach me at sophia [dot] zhou [at] princeton [dot] edu.</p>
+      <div class="folders">
+        <button class="folder" data-go="about"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>about</button>
+        <button class="folder" data-go="photos"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>photos</button>
+        <button class="folder" data-go="work"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>research</button>
+        <button class="folder" data-go="contact"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>contact</button>
+      </div>
 
-<div class="links">
-  <a href="https://github.com/sophiazhou6">github</a>
-  <a href="https://www.linkedin.com/in/sophiayzhou/">linkedin</a>
+      <div class="links">
+        <a href="https://github.com/sophiazhou6">github</a>
+        <a href="https://www.linkedin.com/in/sophiayzhou/">linkedin</a>
+      </div>
+    </section>
+
+    <section id="about">
+      <button class="back" data-go="home">&larr; back</button>
+      <h2>about</h2>
+      <p>i'm a student at Princeton studying electrical &amp; computer engineering, with intended minors in statistics &amp; machine learning, neuroscience, and quantitative &amp; computational biology.</p>    </section>
+
+    <section id="photos">
+      <button class="back" data-go="home">&larr; back</button>
+      <h2>photos</h2>
+      <div class="grid" id="grid"></div>
+      <p class="hint" id="hint"></p>
+    </section>
+
+    <section id="work">
+      <button class="back" data-go="home">&larr; back</button>
+      <h2>research</h2>
+      <p><b>scaling cell lineage tree reconstruction</b><br><span class="lede">designing algorithms to reconstruct the cellular history of an embryo</span></p>
+      <h2 style="margin-top:1.6rem">presentations</h2>
+      <p><b>subject-conditioned implicit neural representations for voxel-wise tau-pet synthesis from structural mri</b><br><span class="lede">international society for magnetic resonance in medicine annual meeting &middot; co-author</span></p>
+      <p><b>effect of anthropogenic forcing on anomalous hydroclimate events in europe detected by an autoencoder</b><br><span class="lede">american meteorological society annual meeting</span><br><a href="https://ui.adsabs.harvard.edu/abs/2025AMS...10558133Z/abstract">abstract &nearr;</a></p>
+    </section>
+
+    <section id="contact">
+      <button class="back" data-go="home">&larr; back</button>
+      <h2>contact</h2>
+      <p>sophia [dot] zhou [at] princeton [dot] edu</p>
+    </section>
+
+  </div>
+</main>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="x" aria-label="Close">&times;</button>
+  <button class="p" aria-label="Previous">&lsaquo;</button>
+  <figure style="margin:0;display:contents"><img alt=""><figcaption></figcaption></figure>
+  <button class="n" aria-label="Next">&rsaquo;</button>
 </div>
 
-<p class="note">Last updated September 2026.</p>
+<script>
+/* ---- add your photos here ----
+   Drop image files in /photos and list them. Example:
+   { src: "photos/lake.jpg", title: "Lake Merritt", caption: "Sony a6000, 35mm, f/8" }
+*/
+const PHOTOS = [
+  { src: "photos/gas-station.jpg",         title: "gas station" },
+  { src: "photos/parking-lot.jpg",         title: "parking lot" },
+  { src: "photos/yellow-flower-house.jpg", title: "yellow flower house" },
+  { src: "photos/cup-house.jpg",           title: "cup house" },
+  { src: "photos/house.jpg",               title: "house" },
+  { src: "photos/chair-bottle.jpg",        title: "chair, bottle" },
+];
 
+const $ = (s, r = document) => r.querySelector(s);
+const secs = [...document.querySelectorAll("section")];
+
+function show(id) {
+  if (!secs.some(s => s.id === id)) id = "home";
+  secs.forEach(s => s.classList.toggle("on", s.id === id));
+  $(".screen").scrollTop = 0;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-go]");
+  if (b) location.hash = b.dataset.go === "home" ? "" : b.dataset.go;
+});
+addEventListener("hashchange", () => show(location.hash.slice(1)));
+show(location.hash.slice(1));
+
+/* gallery */
+const grid = $("#grid");
+if (PHOTOS.length) {
+  PHOTOS.forEach((p, i) => {
+    const t = document.createElement("button");
+    t.className = "tile";
+    t.innerHTML = `<img loading="lazy" src="${p.src}" alt="${p.title || ""}">`;
+    t.onclick = () => open(i);
+    grid.appendChild(t);
+  });
+} else {
+  ["4/5", "1/1", "1/1", "4/5", "5/4", "4/5"].forEach(r => {
+    const t = document.createElement("div");
+    t.className = "tile ph"; t.style.setProperty("--r", r); t.textContent = "photo";
+    grid.appendChild(t);
+  });
+  $("#hint").textContent = "placeholders. add photos to the PHOTOS list in the page source.";
+}
+
+/* lightbox */
+const lb = $("#lb"), lbImg = $("img", lb), lbCap = $("figcaption", lb);
+let cur = 0;
+function open(i) {
+  cur = (i + PHOTOS.length) % PHOTOS.length;
+  const p = PHOTOS[cur];
+  lbImg.src = p.src; lbImg.alt = p.title || "";
+  lbCap.textContent = [p.title, p.caption].filter(Boolean).join(" — ");
+  lb.classList.add("on");
+}
+const close = () => lb.classList.remove("on");
+$(".x", lb).onclick = close;
+$(".p", lb).onclick = () => open(cur - 1);
+$(".n", lb).onclick = () => open(cur + 1);
+lb.addEventListener("click", e => { if (e.target === lb) close(); });
+addEventListener("keydown", e => {
+  if (!lb.classList.contains("on")) return;
+  if (e.key === "Escape") close();
+  if (e.key === "ArrowLeft") open(cur - 1);
+  if (e.key === "ArrowRight") open(cur + 1);
+});
+
+/* theme toggle */
+$("#theme").onclick = () => {
+  const r = document.documentElement;
+  const dark = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  r.dataset.theme = dark ? "light" : "dark";
+};
+</script>
 </body>
 </html>
